@@ -1,0 +1,102 @@
+<html>
+<head>
+    <title> Shane Cooke - Vega Assingment(B)</title>
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+    <table style="width: 850px" cellspacing="5" cellpadding="5">
+    <tbody>
+    <tr>
+    <td style="width: 200px; vertical-align: top;"><strong>Name:&nbsp;</strong></td>
+    <td style="vertical-align: top;">Shane Cooke</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Student Number:</strong></td>
+    <td style="vertical-align: top;">17400206</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Dataset description:</strong></td>
+    <td style="vertical-align: top;">
+    <p><a href="https://www.kaggle.com/vikasojha98/top-women-chess-players" target="_blank" rel="noopener">Kaggle Top Women Chess Players Dataset (Original)</a>.</p>
+    <p><a href="https://github.com/shanecooke/Random_Bits/blob/main/top_women_chess_players_aug_2020_edited_done.csv" target="_blank" rel="noopener">Kaggle Top Women Chess Players Dataset (Edited)</a>.</p>
+    <p>This data set contains the standard, rapid and blitz ratings of the top women chess players. In addition to these rankings, this dataset contains Fide ID, name, federation, year of birth, title, activity and age.</p>
+    </td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Initial questions</strong></td>
+    <td style="vertical-align: top;">How do standard ratings vary among titles? Which titles have the highest and lowest variance? What titles have the highest and lowest amounts of inactive players?</td>
+    </tr>
+    </tbody>
+    </table>
+    <hr />
+  <div id="vis" class="container"></div>
+  <script type="text/javascript">
+    var yourVlSpec =  {
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "width":1100,
+  "height":400,
+  "title":"Standard Rating by Title",
+    "config":{
+    "axis":{
+      "titleFontSize":18,
+      "labelFontSize":12,
+      "titlePadding":10
+    },
+    "title": {
+      "fontSize":22
+    }
+  },
+  "data":{
+    "url":"https://raw.githubusercontent.com/shanecooke/Random_Bits/main/top_women_chess_players_aug_2020_edited_done.csv",
+    "format":{
+      "type":"csv"
+    }
+  },
+  "transform":[
+    {"filter": "datum.Standard_Rating > 0"},
+    {"filter": "datum.Title != 'WH'"}
+  ],
+  "mark": "circle",
+  "encoding":{
+    "y":{
+      "field":"Title",
+      "type":"nominal",
+      "sort": ["GM","WGM","IM","WIM","FM","WFM","CM","WCM","No Title"]
+    },
+    "x":{
+      "field":"Standard_Rating",
+      "type":"quantitative",
+      "scale": {"domain": [1700,2800]},
+      "title":"Standard Rating"
+    },
+    "tooltip": {"field": "Name", "type": "nominal"},
+    "color": {"field":"Inactive_flag", "type":"nominal", "title":"Activity"}
+  }
+}
+        vegaEmbed("#vis", yourVlSpec);
+  </script>
+    <hr />
+<table style="width: 850px;" cellspacing="5" cellpadding="5">
+<tbody>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Description:&nbsp;</strong></td>
+<td style="vertical-align: top;">This strip plot shows the standard rating and title of the top women chess players. Each circle represents an individual chess player, orange cirlces represent inactive players and blue circles represent active players. Hovering over any given point will reveal the associated chess player's name.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Insight:</strong></td>
+<td style="vertical-align: top;">The chart shows that standard rating varies quite widly in most of the titles. This is to be expected as chess ratings are not an exact science. There are many <a href="https://www.chess.com/terms/chess-titles"> different criteria </a> that go into the decision of what title to assign to a player, so high variance in standard rating between titles is to be expected. Variance is huge in Women International Masters, Women Fide Masters, Untitled players and Women Grandmasters, whereas variance is comparably much lower in Grandmasters, FIDE Masters and Candidate Masters. <p/> Levels of inactivity also have quite high levels of variance between the titles. As you can see by the levels of blue/orange, there is huge inactivity in untitled players, and very high levels in Women FIDE Masters and Women International Masters. There are very low levels in Grandmasters, International Masters and FIDE Masters. It appears that the higher the rank a player achieves, the more likely they are to stay active within the chess community, which would explain the very low levels of inactivity in the highest rank (Grandmasters) and very high levels of unactivity in the lowest rank (untitled).</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Design considerations</strong></td>
+<td style="vertical-align: top;">I chose to use a strip chart as position along a common axis is the most effective means of conveying quantative information. By grouping chess players by title, it is clear to see the comparative levels of variance between each title. It also makes it clear which titles have the highest and lowest levels of inactivity.<p/>One limitation of strip plots is that overplotting can be an issue. To avoid this problem, I set the parameters of the graph to be quite short and very wide. By doing this I hoped to spread the many points sufficiently so that a reader could view the data very easily. There are also other limitations, such as the fact that is is impossible to tell how many players have earned each title and that it is impossible to tell how many players are active and inactive. These points are not the focus of the graph however, and clear trends in the variance in standard rating and activity levels are clear.<p/>I tested the use of histograms for the question, however I found that the graphs where not as visually appealing as the scatter plots and the data was significantly harder to read. Filtering the data would have resulted in less points on the graph which would have increased readability, however I did not feel that this was necessary for this task.</td>
+</tr>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Data filtering and transformation:&nbsp;</strong></td>
+<td style="vertical-align: top;">Only standard ratings above 0 are shown, and I chose to ommit the single player with the title "WH" from the graph.</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

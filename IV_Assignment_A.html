@@ -1,0 +1,105 @@
+<html>
+<head>
+    <title> Shane Cooke - Vega Assingment(A)</title>
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+    <table style="width: 850px" cellspacing="5" cellpadding="5">
+    <tbody>
+    <tr>
+    <td style="width: 200px; vertical-align: top;"><strong>Name:&nbsp;</strong></td>
+    <td style="vertical-align: top;">Shane Cooke</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Student Number:</strong></td>
+    <td style="vertical-align: top;">17400206</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Dataset description:</strong></td>
+    <td style="vertical-align: top;">
+    <p><a href="https://www.kaggle.com/vikasojha98/top-women-chess-players" target="_blank" rel="noopener">Kaggle Top Women Chess Players Dataset (Original)</a>.</p>
+    <p><a href="https://github.com/shanecooke/Random_Bits/blob/main/top_women_chess_players_aug_2020_edited_done.csv" target="_blank" rel="noopener">Kaggle Top Women Chess Players Dataset (Edited)</a>.</p>
+    <p>This data set contains the standard, rapid and blitz ratings of the top women chess players. In addition to these rankings, this dataset contains Fide ID, name, federation, year of birth, title, activity and age.</p>
+    </td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Initial questions</strong></td>
+    <td style="vertical-align: top;">For top women chess players, is there a correlation between rapid rating and blitz rating? Since title is based off of standard rating, is the title heirarchy still maintained through rapid and blitz ratings?</td>
+    </tr>
+    </tbody>
+    </table>
+    <hr />
+  <div id="vis" class="container"></div>
+  <script type="text/javascript">
+    var yourVlSpec =  {
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "width":550,
+  "height":550,
+  "title":"Blitz Rating vs Rapid Rating of Title Holders",
+  "config":{
+  "axis":{
+    "titleFontSize":18,
+    "labelFontSize":12,
+    "titlePadding":10
+  },
+  "title": {
+    "fontSize":22
+   }
+  },
+  "data":{
+    "url":"https://raw.githubusercontent.com/shanecooke/Random_Bits/main/top_women_chess_players_aug_2020_edited_done.csv",
+    "format":{
+      "type":"csv"
+    }
+  },
+  "transform":[
+    {"filter": "datum.Blitz_rating > 0"},
+    {"filter": "datum.Rapid_rating > 0"},
+    {"filter": "datum.Title != 'No Title'"}
+  ],
+  "mark": "circle",
+  "encoding":{
+    "y":{
+      "field":"Rapid_rating",
+      "type":"quantitative",
+      "scale": {"domain": [1000,3000]},
+      "title":"Rapid Rating"
+    },
+    "x":{
+      "field":"Blitz_rating",
+      "type":"quantitative",
+      "scale": {"domain": [1000,3000]},
+      "title":"Blitz Rating"
+    },
+    "color": {"field": "Title", "type":"nominal", "sort": ["GM","WGM","IM","WIM","FM","WFM","CM","WCM","No Title"]
+  },
+  "tooltip": {"field": "Title", "type": "nominal"}
+}
+}
+        vegaEmbed("#vis", yourVlSpec);
+  </script>
+    <hr />
+<table style="width: 850px;" cellspacing="5" cellpadding="5">
+<tbody>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Description:&nbsp;</strong></td>
+<td style="vertical-align: top;">This scatter plot shows the relationship between the rapid rating and blitz rating of the top women chess players. Each point represents a chess player and these are coloured according to the chess player's title - Blue for Grandmasters, Orange for Women Grandmasters, Red for International Masters, Cyan for Woman International Masters, Green for FIDE masters, Yellow for Women FIDE masters, Purple for FIDE Candidate Masters and Pink for Women FIDE Candidate Masters. Hovering over a point will reveal the associated chess player's title.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Insight:</strong></td>
+<td style="vertical-align: top;">In general, rapid ratings and blitz ratings are very correlated with one another. As rapid rating rises, so to does blitz rating and as blitz rating rises, so to does rapid rating. This correlation is not perfect, as we can see outliers who have a much higher score in one variant of chess over the other. These outliers may be due to preference, ability or the amount of games played by the player. The heirarchy of titles is upheld extremely convincingly in rapid and blitz chess. Titles are given based on ones accomplishments in standard chess, not in rapid or blitz chess, so it is quite astonishing to see that title is very highly correlated to ones ability in these more obscure forms of chess. In general, Grandmasters rank the highest in blitz and ranked chess and Women Candidate Masters rank the lowest. This follows the heirarchy of titles perfectly, and shows that title is indeed correlated with blitz and rapid chess ability. <a href="https://en.wikipedia.org/wiki/Chess_rating_system"> Here is a link </a> that shows the heirarchy of titles in world chess, and you will see that this heirarchy almost perfectly fits this graph. The titles in the legend are also in their correct order of ranking, which I encoded for ease of reading.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Design considerations</strong></td>
+<td style="vertical-align: top;">I chose to use a scatterplot as I felt that it would be the most effective way to show the relationship between two quantative variables. I chose the colour scheme to best display where each title fell in the graph, and how certain titles outperformed others. I encoded tooltips so that the reader could hover over any given point on the graph and see the title to which the point is referring to.<p/>I tried using hollow points to represent each chess player, however this made the graph appear too congested. I also considered different axis-lengths and size parameters for the graph, however I felt as though the options I picked gave the best visualisation. I chose this colour scheme, because I felt that with this scheme, there was enough contrast between each colour to easily make out what title each point held.</td>
+</tr>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Data filtering and transformation:&nbsp;</strong></td>
+<td style="vertical-align: top;">Only blitz and rapid ratings above 0 are shown, and I chose to exclude chess players with no title from the graph.</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

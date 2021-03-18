@@ -1,0 +1,113 @@
+<html>
+<head>
+    <title> Shane Cooke - Vega Assingment(B)</title>
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+    <table style="width: 850px" cellspacing="5" cellpadding="5">
+    <tbody>
+    <tr>
+    <td style="width: 200px; vertical-align: top;"><strong>Name:&nbsp;</strong></td>
+    <td style="vertical-align: top;">Shane Cooke</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Student Number:</strong></td>
+    <td style="vertical-align: top;">17400206</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Dataset description:</strong></td>
+    <td style="vertical-align: top;">
+    <p><a href="https://www.kaggle.com/vikasojha98/top-women-chess-players" target="_blank" rel="noopener">Kaggle Top Women Chess Players Dataset (Original)</a>.</p>
+    <p><a href="https://github.com/shanecooke/Random_Bits/blob/main/top_women_chess_players_aug_2020_edited_done.csv" target="_blank" rel="noopener">Kaggle Top Women Chess Players Dataset (Edited)</a>.</p>
+    <p>This data set contains the standard, rapid and blitz ratings of the top women chess players. In addition to these rankings, this dataset contains Fide ID, name, federation, year of birth, title, activity and age.</p>
+    </td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Initial questions</strong></td>
+    <td style="vertical-align: top;">How does the amount of major titles vary between age groups? Which age group produces the most major title holders?</td>
+    </tr>
+    </tbody>
+    </table>
+    <hr />
+  <div id="vis" class="container"></div>
+  <script type="text/javascript">
+    var yourVlSpec =  {
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "width":1000,
+  "height":500,
+  "title":"Proportion of Major Titles per Age Group",
+    "config":{
+    "axis":{
+      "titleFontSize":18,
+      "labelFontSize":12,
+      "titlePadding":10
+    },
+    "title": {
+      "fontSize":22
+    }
+  },
+  "data":{
+    "url": "https://raw.githubusercontent.com/shanecooke/Random_Bits/main/top_women_chess_players_aug_2020_edited_done.csv"},
+  "transform": [
+    {"filter": "datum.Title != 'No Title'"},
+    {"filter": "datum.Title != 'CM'"},
+    {"filter": "datum.Title != 'FM'"},
+    {"filter": "datum.Title != 'WCM'"},
+    {"filter": "datum.Title != 'WFM'"},
+    {"filter": "datum.Title != 'WH'"},
+    {"filter": "datum.Title != 'No_Title'"},
+    {"filter": "datum.age != 0"},
+    {"filter": "datum.Standard_Rating != 0"}
+  ],
+  "width": {"step": 12},
+  "mark": "bar",
+  "encoding": {
+    "column": {
+      "field": "agerange", "type": "nominal", "spacing": 10, "title":"Age Range", "titleFontSize":18
+    },
+    "y": {
+      "aggregate": "count", "field": "Title",
+      "title": "Amount of Titles",
+      "axis": {"grid": false}
+    },
+    "x": {
+      "field": "Title",
+      "axis": {"title": ""}
+    },
+    "color": {
+      "field": "Title"
+    },
+    "tooltip": {"field": "Titles", "type": "nominal", "aggregate":"count"}
+  },
+  "config": {
+    "view": {"stroke": "transparent"},
+    "axis": {"domainWidth": 1}
+  }
+}
+        vegaEmbed("#vis", yourVlSpec);
+  </script>
+    <hr />
+<table style="width: 850px;" cellspacing="5" cellpadding="5">
+<tbody>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Description:&nbsp;</strong></td>
+<td style="vertical-align: top;">This bar chart shows the distribution of major titles in chess between age groups. Each bar represents the amount of that specific title held by each age group. I did not sort the bars in this chart, as I felt as though that would diminish the readability of the plot. Hovering over any given bar will reveal the number of that given title held within the chosen age group.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Insight:</strong></td>
+<td style="vertical-align: top;"> The amount of major titles held by each age group has a suprisingly uniform curve. For all major titles, the peak amount held by any age group is 30-40 and the lowest amount held by any age group is 90+. In age groups 50 and above, the amount of titles held begins to decline quite rapidly and uniformly and this is true for all four variations of major title. Inversely, from the ages of 10-20 up until 30-40, the amount of titles held increases. There is a huge increase in titles held particularly between the age groups of 20-30 and 30-40. <p/> The most commonly held major title is Woman International Master and the least commonly held title is Grandmaster. There are no Grandmasters in the 0-20, 60-70, 80-90 and 90+ age groups. <a href="https://chessgoals.com/chess-ratings/"> The heirarchy</a> of chess titles is clearly displayed through the distribution of major titles between the age groups.
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Design considerations</strong></td>
+<td style="vertical-align: top;">I have chosen to use a bar chart because they are very effective at conveying quantitative information. By not sorting the bars in this graph, it is immediately evident which title each bar refers to. The contrasting colours between each bar also improve readibility and help to avoid confusion. Each age group is appropriately spaced, and I believe I have chosen the best graph width and height to display this data. <p/> I chose to only use the four most prestigious titles, because using all 9 provided in the original datafile would have resulted in a massively overplotted graph and reading the data would have been extremely difficult. For this same reason, I chose to place the ages of the individual chess players into groups of ten years. A graph with every age between 0-100 would have been extremely congested and unnecessarily large and complex. <p/> For this task, I considered using a histogram or dot plot, however after some testing, I found that the bar chart was the cleanest and most readable plot for this information. I also considered sorting the bars in descending and ascending order, however this complicated the graph and did not add any extra readibility or information.</td>
+</tr>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Data filtering and transformation:&nbsp;</strong></td>
+<td style="vertical-align: top;">Only standard ratings above 0 are shown and I chose to ommit the Candidate Masters, FIDE Masters, Women Candidate Masters, Women FIDE Masters, 'WH' Masters and untitled players. I also did not include players whose age equalled 0, which indicates that they do not have an age on record.</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
